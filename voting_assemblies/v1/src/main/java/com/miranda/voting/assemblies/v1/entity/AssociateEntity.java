@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.br.CPF;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 @EqualsAndHashCode(callSuper = true)
@@ -14,6 +15,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class AssociateEntity extends AbstractEntity<Long> implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     private String name;
@@ -21,5 +23,4 @@ public class AssociateEntity extends AbstractEntity<Long> implements Serializabl
     @CPF
     private String cpf;
 
-    private String email;
 }
