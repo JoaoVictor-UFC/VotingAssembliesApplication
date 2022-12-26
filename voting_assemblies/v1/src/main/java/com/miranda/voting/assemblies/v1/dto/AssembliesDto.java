@@ -2,8 +2,6 @@ package com.miranda.voting.assemblies.v1.dto;
 
 import lombok.Data;
 
-import java.time.LocalDateTime;
-
 @Data
 public class AssembliesDto {
 
@@ -11,7 +9,7 @@ public class AssembliesDto {
 
     private Boolean vote;
 
-    private LocalDateTime time;
+    private String time;
 
     private Long scheduleId;
 

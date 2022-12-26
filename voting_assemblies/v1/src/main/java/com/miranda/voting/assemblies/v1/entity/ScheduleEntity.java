@@ -1,7 +1,6 @@
 package com.miranda.voting.assemblies.v1.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -25,7 +24,8 @@ public class ScheduleEntity extends AbstractEntity<Long> implements Serializable
 
     private Double result;
 
-    @OneToMany
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name ="schedule_id")
     private List<AssembliesEntity> assembliesEntities;
 
 }

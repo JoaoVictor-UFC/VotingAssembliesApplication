@@ -1,17 +1,17 @@
 package com.miranda.voting.assemblies.v1.dto;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-
-import java.time.LocalDateTime;
 
 @Data
 public class ScheduleDto {
 
+    @NotNull
     private String title;
 
     private Integer totalVotes;
 
     private Double result;
 
-    private LocalDateTime time;
+    private String time;
 }
