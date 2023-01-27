@@ -1,18 +1,17 @@
 package com.miranda.voting.assemblies.v1.service;
 
 import com.miranda.voting.assemblies.v1.dto.*;
+import com.miranda.voting.assemblies.v1.entity.AssembliesEntity;
 import com.miranda.voting.assemblies.v1.entity.AssociateEntity;
 import com.miranda.voting.assemblies.v1.entity.ScheduleEntity;
 
 public interface AssembliesService {
 
-    ScheduleEntity createSchedule(ScheduleDto request);
+    ScheduleEntity createSchedule(CreateScheduleDto request);
 
-    VotingSlipDto vote(AssembliesDto assemblies);
+    VotingSlipDto votingSlip(VoteDto voting);
 
-    ScheduleEntity createAssemblies(AssembliesDto dto);
-
-    ResultDto polling(Long assemblieId);
+    ResultDto polling(Long scheduleId);
 
     AssociateEntity createAssociate(CreateAssociateDto req);
 }

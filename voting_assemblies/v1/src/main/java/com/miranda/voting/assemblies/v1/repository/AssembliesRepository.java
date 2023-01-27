@@ -7,16 +7,14 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface AssembliesRepository extends JpaRepository<AssembliesEntity, Long>{
 
-    @Query("SELECT u FROM AssembliesEntity u WHERE u.time > ?1")
-    List<AssembliesEntity> timeIsValid(LocalDateTime time);
-
-    @Query(value = "select a.schedule_id  from assemblies_entity a where a.id = ?1", nativeQuery = true)
-    Long findByScheduleId(Long id);
-
-    @Query(value = "select * from assemblies_entity a where a.id = ?1", nativeQuery = true)
+    @Query(value = "select * from assemblies_entity a where a.id_schedule = ?1", nativeQuery = true)
     List<AssembliesEntity> findAllByScheduleId(Long id);
+
+    @Query(value = "select * from assemblies_entity where id_associate = ?1", nativeQuery = true)
+    Optional<AssembliesEntity> existsByAssociateId(Long associateId);
 }

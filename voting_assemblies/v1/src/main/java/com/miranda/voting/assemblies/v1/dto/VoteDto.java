@@ -3,15 +3,9 @@ package com.miranda.voting.assemblies.v1.dto;
 import lombok.Data;
 
 @Data
-public class AssembliesDto {
+public class VoteDto {
 
-    private Long associateId;
-
+    private String cpfAssociate;
     private Boolean vote;
-
-    private String time;
-
     private Long scheduleId;
-
-    private Long assemblieId;
 }

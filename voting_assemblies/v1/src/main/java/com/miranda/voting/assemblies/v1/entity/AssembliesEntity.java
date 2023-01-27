@@ -19,9 +19,14 @@ public class AssembliesEntity extends AbstractEntity<Long> implements Serializab
     @Serial
     private static final long serialVersionUID = 1L;
 
-    private LocalDateTime time;
+    private Boolean vote;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name ="assemblie_id")
-    private List<VoteEntity> votes;
+    @OneToOne
+    @JoinColumn(name ="id_associate", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_associate"))
+    private AssociateEntity associate;
+
+    @OneToOne
+    @JoinColumn(name ="id_schedule", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_schedule"))
+    private ScheduleEntity schedule;
+
 }

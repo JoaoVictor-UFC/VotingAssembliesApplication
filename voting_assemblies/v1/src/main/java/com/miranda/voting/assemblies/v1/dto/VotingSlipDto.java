@@ -9,5 +9,9 @@ public class VotingSlipDto {
 
     private String nameAssociate;
 
-    private LocalDateTime dateVote;
+    private LocalDateTime dateVoting;
+
+    private Boolean vote;
+
+    private String titleSchedule;
 }

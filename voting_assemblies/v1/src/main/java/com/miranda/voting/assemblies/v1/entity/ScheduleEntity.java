@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
@@ -24,8 +25,5 @@ public class ScheduleEntity extends AbstractEntity<Long> implements Serializable
 
     private Double result;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name ="schedule_id")
-    private List<AssembliesEntity> assembliesEntities;
-
+    private LocalDateTime time = LocalDateTime.now().plusMinutes(1);
 }

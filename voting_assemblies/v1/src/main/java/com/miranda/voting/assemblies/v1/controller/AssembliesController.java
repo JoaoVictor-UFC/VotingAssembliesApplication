@@ -1,6 +1,7 @@
 package com.miranda.voting.assemblies.v1.controller;
 
 import com.miranda.voting.assemblies.v1.dto.*;
+import com.miranda.voting.assemblies.v1.entity.AssembliesEntity;
 import com.miranda.voting.assemblies.v1.entity.AssociateEntity;
 import com.miranda.voting.assemblies.v1.entity.ScheduleEntity;
 import com.miranda.voting.assemblies.v1.errorExceptions.MessageErrorCustom;
@@ -51,23 +52,8 @@ public class AssembliesController {
             @ApiResponse(code = 404, message = "NOT FOUND", response = MessageErrorCustom.class)
     })
     @PostMapping(value = "/create/schedule", consumes = { "application/json", "application/xml" })
-    public ResponseEntity<?> createSchedule(@RequestBody @Valid ScheduleDto req){
+    public ResponseEntity<?> createSchedule(@RequestBody @Valid CreateScheduleDto req){
         ScheduleEntity schedule = service.createSchedule(req);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}/id").buildAndExpand(schedule.getId())
-                .toUri();
-        return ResponseEntity.created(uri).build();
-    }
-
-    @ApiOperation(value = "Create Assemblies")
-    @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "CREATED"),
-            @ApiResponse(code = 401, message = "UNAUTHORIZED", response = MessageErrorCustom.class),
-            @ApiResponse(code = 403, message = "FORBIDDEN", response = MessageErrorCustom.class),
-            @ApiResponse(code = 404, message = "NOT FOUND", response = MessageErrorCustom.class)
-    })
-    @PostMapping(value = "/create/assemblies", consumes = { "application/json", "application/xml" })
-    public ResponseEntity<?> createAssemblies(@RequestBody @Valid AssembliesDto req){
-        ScheduleEntity schedule = service.createAssemblies(req);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}/id").buildAndExpand(schedule.getId())
                 .toUri();
         return ResponseEntity.created(uri).build();
@@ -75,14 +61,14 @@ public class AssembliesController {
 
     @ApiOperation(value = "Voting Slip")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "OK", response = VotingSlipDto.class),
+            @ApiResponse(code = 200, message = "OK", response = VoteDto.class),
             @ApiResponse(code = 401, message = "UNAUTHORIZED", response = MessageErrorCustom.class),
             @ApiResponse(code = 403, message = "FORBIDDEN", response = MessageErrorCustom.class),
             @ApiResponse(code = 404, message = "NOT FOUND", response = MessageErrorCustom.class)
     })
     @PostMapping(value = "/vote", consumes = { "application/json", "application/xml" })
-    public ResponseEntity<VotingSlipDto> votingSlip(@RequestBody @Valid AssembliesDto req){
-        return ResponseEntity.ok().body(service.vote(req));
+    public ResponseEntity<VotingSlipDto> votingSlip(@RequestBody @Valid VoteDto req){
+        return ResponseEntity.ok().body(service.votingSlip(req));
     }
 
     @ApiOperation(value = "Polling")
@@ -92,8 +78,8 @@ public class AssembliesController {
             @ApiResponse(code = 403, message = "FORBIDDEN", response = MessageErrorCustom.class),
             @ApiResponse(code = 404, message = "NOT FOUND", response = MessageErrorCustom.class)
     })
-    @GetMapping(value = "/result/{assemblieId}", produces = { "application/json", "application/xml" })
-    public ResponseEntity<ResultDto> polling(@PathVariable Long assemblieId){
-        return ResponseEntity.ok().body(service.polling(assemblieId));
+    @GetMapping(value = "/result/{scheduleId}", produces = { "application/json", "application/xml" })
+    public ResponseEntity<ResultDto> polling(@PathVariable Long scheduleId){
+        return ResponseEntity.ok().body(service.polling(scheduleId));
     }
 }
