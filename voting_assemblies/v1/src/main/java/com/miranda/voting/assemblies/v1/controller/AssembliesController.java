@@ -1,7 +1,6 @@
 package com.miranda.voting.assemblies.v1.controller;
 
 import com.miranda.voting.assemblies.v1.dto.*;
-import com.miranda.voting.assemblies.v1.entity.AssembliesEntity;
 import com.miranda.voting.assemblies.v1.entity.AssociateEntity;
 import com.miranda.voting.assemblies.v1.entity.ScheduleEntity;
 import com.miranda.voting.assemblies.v1.errorExceptions.MessageErrorCustom;

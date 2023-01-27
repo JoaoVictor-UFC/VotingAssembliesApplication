@@ -10,7 +10,7 @@ public class CreateAssociateDto {
     @NotNull
     private String name;
 
-    @CPF
+//    @CPF
     @NotNull
     private String cpf;
 }

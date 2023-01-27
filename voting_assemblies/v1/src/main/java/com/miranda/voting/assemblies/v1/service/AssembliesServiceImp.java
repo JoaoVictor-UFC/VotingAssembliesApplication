@@ -4,18 +4,21 @@ import com.miranda.voting.assemblies.v1.dto.*;
 import com.miranda.voting.assemblies.v1.entity.AssembliesEntity;
 import com.miranda.voting.assemblies.v1.entity.AssociateEntity;
 import com.miranda.voting.assemblies.v1.entity.ScheduleEntity;
+import com.miranda.voting.assemblies.v1.enums.ValidateVoteStatus;
 import com.miranda.voting.assemblies.v1.errorExceptions.ResourceBadRequestException;
 import com.miranda.voting.assemblies.v1.errorExceptions.ResourceForbiddenException;
 import com.miranda.voting.assemblies.v1.errorExceptions.ResourceNotFoundException;
 import com.miranda.voting.assemblies.v1.repository.AssembliesRepository;
 import com.miranda.voting.assemblies.v1.repository.AssociateRepository;
 import com.miranda.voting.assemblies.v1.repository.ScheduleRepository;
+import com.miranda.voting.assemblies.v1.util.ValidateVote;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -93,6 +96,9 @@ public class AssembliesServiceImp implements AssembliesService {
         AssociateEntity entity = new AssociateEntity();
         if (associateRepository.findByCpf(req.getCpf()).isPresent()){
             throw new ResourceBadRequestException("cpf already registered");
+        }
+        if (Objects.equals(ValidateVote.validateVote(req.getCpf()).getDescription(), ValidateVoteStatus.UNABLE_TO_VOTE.getDescription())){
+            throw new ResourceBadRequestException(ValidateVoteStatus.UNABLE_TO_VOTE.getDescription());
         }
         entity.setCpf(req.getCpf());
         entity.setName(req.getName());
