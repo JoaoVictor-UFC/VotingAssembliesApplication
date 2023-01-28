@@ -18,7 +18,7 @@ import java.net.URI;
 
 @Api(value = "AssembliesController", tags = { "Assemblies Controller" })
 @Valid
-@RequestMapping("/assemblies")
+@RequestMapping("/v1")
 @RestController
 public class AssembliesController {
 

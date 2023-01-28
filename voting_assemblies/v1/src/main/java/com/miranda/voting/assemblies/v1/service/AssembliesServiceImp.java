@@ -21,17 +21,21 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import static com.miranda.voting.assemblies.v1.enums.ValidateVoteStatus.UNABLE_TO_VOTE;
+
 @Service
 public class AssembliesServiceImp implements AssembliesService {
 
     private final AssembliesRepository assembliesRepository;
     private final AssociateRepository associateRepository;
     private final ScheduleRepository scheduleRepository;
+    private final ValidateVote validateVote;
 
-    public AssembliesServiceImp(AssembliesRepository assembliesRepository, AssociateRepository associateRepository, ScheduleRepository scheduleRepository) {
+    public AssembliesServiceImp(AssembliesRepository assembliesRepository, AssociateRepository associateRepository, ScheduleRepository scheduleRepository, ValidateVote validateVote) {
         this.assembliesRepository = assembliesRepository;
         this.associateRepository = associateRepository;
         this.scheduleRepository = scheduleRepository;
+        this.validateVote = validateVote;
     }
 
     @Transactional
@@ -40,7 +44,6 @@ public class AssembliesServiceImp implements AssembliesService {
         entity.setTitle(request.getTitle());
         entity.setCreatedAt(LocalDateTime.now());
         if (request.getTime() != null) entity.setTime(LocalDateTime.parse(request.getTime()));
-
         return scheduleRepository.save(entity);
     }
 
@@ -97,12 +100,12 @@ public class AssembliesServiceImp implements AssembliesService {
         if (associateRepository.findByCpf(req.getCpf()).isPresent()){
             throw new ResourceBadRequestException("cpf already registered");
         }
-        if (Objects.equals(ValidateVote.validateVote(req.getCpf()).getDescription(), ValidateVoteStatus.UNABLE_TO_VOTE.getDescription())){
-            throw new ResourceBadRequestException(ValidateVoteStatus.UNABLE_TO_VOTE.getDescription());
+        if (!Objects.equals(validateVote.validateVote(req.getCpf()).getDescription(), UNABLE_TO_VOTE.getDescription())) {
+            entity.setCpf(req.getCpf());
+            entity.setName(req.getName());
+            entity.setCreatedAt(LocalDateTime.now());
+            return associateRepository.save(entity);
         }
-        entity.setCpf(req.getCpf());
-        entity.setName(req.getName());
-        entity.setCreatedAt(LocalDateTime.now());
-        return associateRepository.save(entity);
+        throw new ResourceBadRequestException(UNABLE_TO_VOTE.getDescription());
     }
 }
