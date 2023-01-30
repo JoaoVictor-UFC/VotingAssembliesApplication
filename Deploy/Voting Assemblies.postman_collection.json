@@ -1,0 +1,108 @@
+{
+	"info": {
+		"_postman_id": "40ae833f-6191-4bdd-9259-7cea79c5018c",
+		"name": "Voting Assemblies",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25439339"
+	},
+	"item": [
+		{
+			"name": "Create Associate",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\" : \"Pedro Arthur\",\r\n    \"cpf\" : \"90333089081\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:7001/assemblies/create/associate",
+					"host": [
+						"localhost"
+					],
+					"port": "7001",
+					"path": [
+						"assemblies",
+						"create",
+						"associate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Schedule",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\" : \"Pokemon\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/create/schedule",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"create",
+						"schedule"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "vote",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"cpfAssociate\" : \"75331928005\",\r\n    \"vote\" : false,\r\n    \"scheduleId\" : 1\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/vote",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"vote"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Polling",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Validate CpfCnpj",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}
