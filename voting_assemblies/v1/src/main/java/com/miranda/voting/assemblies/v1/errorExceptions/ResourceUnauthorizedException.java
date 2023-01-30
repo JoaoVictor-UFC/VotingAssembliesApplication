@@ -8,7 +8,7 @@ public class ResourceUnauthorizedException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
 
-    public ResourceUnauthorizedException(String message) {
+    public ResourceUnauthorizedException(String message, Exception e) {
         super(message);
     }
 

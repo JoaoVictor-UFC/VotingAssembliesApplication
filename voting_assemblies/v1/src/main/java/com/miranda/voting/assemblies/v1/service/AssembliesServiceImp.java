@@ -4,7 +4,6 @@ import com.miranda.voting.assemblies.v1.dto.*;
 import com.miranda.voting.assemblies.v1.entity.AssembliesEntity;
 import com.miranda.voting.assemblies.v1.entity.AssociateEntity;
 import com.miranda.voting.assemblies.v1.entity.ScheduleEntity;
-import com.miranda.voting.assemblies.v1.enums.ValidateVoteStatus;
 import com.miranda.voting.assemblies.v1.errorExceptions.ResourceBadRequestException;
 import com.miranda.voting.assemblies.v1.errorExceptions.ResourceForbiddenException;
 import com.miranda.voting.assemblies.v1.errorExceptions.ResourceNotFoundException;
