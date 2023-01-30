@@ -29,4 +29,6 @@ public class AssembliesEntity extends AbstractEntity<Long> implements Serializab
     @JoinColumn(name ="id_schedule", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_schedule"))
     private ScheduleEntity schedule;
 
+    public AssembliesEntity(boolean b, ScheduleEntity scheduleEntity) {
+    }
 }

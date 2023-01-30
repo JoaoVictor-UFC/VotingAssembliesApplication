@@ -54,7 +54,7 @@ class ValidateVoteTest {
         ValidateVote validateVote = new ValidateVote(URL , restTemplate);
 
         Mockito.when(this.restTemplate.getForEntity(URL + CPF, Boolean.class))
-                .thenThrow(new ResourceUnauthorizedException("Connection refused"));
+                .thenThrow(new ResourceUnauthorizedException("Schedule not found"));
 
         assertThrows(ResourceUnauthorizedException.class, () -> {
             validateVote.validateVote(CPF);

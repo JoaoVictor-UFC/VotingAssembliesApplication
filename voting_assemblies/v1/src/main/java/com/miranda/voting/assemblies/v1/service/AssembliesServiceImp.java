@@ -48,25 +48,50 @@ public class AssembliesServiceImp implements AssembliesService {
     }
 
     @Transactional
-    public VotingSlipDto votingSlip(VoteDto voting){
-        Optional<ScheduleEntity> schedule = scheduleRepository.findById(voting.getScheduleId());
-        Optional<AssociateEntity> associate = associateRepository.findByCpf(voting.getCpfAssociate());
-        Optional<AssembliesEntity> assemblies = assembliesRepository.existsByAssociateId(associate.get().getId());
-        if (schedule.isEmpty()) throw new ResourceBadRequestException("Schedule not found");
-        if (associate.isEmpty()) throw new ResourceBadRequestException("Associate not found");
-        if (!assemblies.isEmpty())throw new ResourceBadRequestException("associate has already voted");
-        if (schedule.get().getTime().isBefore(LocalDateTime.now())) throw new ResourceForbiddenException("Stalled voting time");
+    public VotingSlipDto votingSlip(VoteDto voting) {
+        validateVoteDto(voting);
+        ScheduleEntity schedule = scheduleRepository.findById(voting.getScheduleId())
+                .orElseThrow(() -> new ResourceBadRequestException("Schedule not found"));
+        AssociateEntity associate = associateRepository.findByCpf(voting.getCpfAssociate())
+                .orElseThrow(() -> new ResourceBadRequestException("Associate not found"));
+        if (assembliesRepository.existsByAssociateId(associate.getId())) {
+            throw new ResourceBadRequestException("Associate has already voted");
+        }
+        if (schedule.getTime().isBefore(LocalDateTime.now())) {
+            throw new ResourceForbiddenException("Stalled voting time");
+        }
         AssembliesEntity entity = new AssembliesEntity();
         entity.setVote(voting.getVote());
-        entity.setSchedule(schedule.get());
-        entity.setAssociate(associate.get());
+        entity.setSchedule(schedule);
+        entity.setAssociate(associate);
         entity.setCreatedAt(LocalDateTime.now());
         assembliesRepository.save(entity);
+        return createVotingSlipDto(voting, schedule, associate);
+    }
+
+    @Transactional
+    private void validateVoteDto(VoteDto voting) {
+        if (voting == null) {
+            throw new ResourceBadRequestException("VoteDto object cannot be null");
+        }
+        if (voting.getScheduleId() == null) {
+            throw new ResourceBadRequestException("ScheduleId cannot be null");
+        }
+        if (voting.getCpfAssociate() == null || voting.getCpfAssociate().isEmpty()) {
+            throw new ResourceBadRequestException("CpfAssociate cannot be null or empty");
+        }
+        if (voting.getVote() == null) {
+            throw new ResourceBadRequestException("Vote cannot be null");
+        }
+    }
+
+    @Transactional
+    private VotingSlipDto createVotingSlipDto(VoteDto voting, ScheduleEntity schedule, AssociateEntity associate) {
         VotingSlipDto dto = new VotingSlipDto();
         dto.setVote(voting.getVote());
         dto.setDateVoting(LocalDateTime.now());
-        dto.setNameAssociate(associate.get().getName());
-        dto.setTitleSchedule(schedule.get().getTitle());
+        dto.setNameAssociate(associate.getName());
+        dto.setTitleSchedule(schedule.getTitle());
         return dto;
     }
 

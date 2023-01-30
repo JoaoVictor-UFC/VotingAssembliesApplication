@@ -13,4 +13,16 @@ public class ResultDto {
     private Integer upVote;
 
     private Integer falseVote;
+
+    public ResultDto(String title, Double result, Integer totalVotes, Integer upVote, Integer falseVote) {
+        this.title = title;
+        this.result = result;
+        this.totalVotes = totalVotes;
+        this.upVote = upVote;
+        this.falseVote = falseVote;
+    }
+
+    public ResultDto(){
+
+    }
 }
