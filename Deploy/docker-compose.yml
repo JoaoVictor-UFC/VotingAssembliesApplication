@@ -1,0 +1,39 @@
+version: '3'
+services:
+
+  db_voting:
+    container_name: db_voting
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: 'voting123'
+      POSTGRES_USERNAME: voting
+      POSTGRES_DB: db_voting
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./db
+
+  cpf_validate_app:
+    container_name: cpf_validate_app
+    restart: always
+    image: johnnykeys/cpf_validate:1.0
+    build: ./cpfValidate
+    ports: 
+      - "7003:7003"
+      
+  voting_assemblies_app:
+    container_name: voting_assemblies_app
+    restart: always
+    image: johnnykeys/voting_assemblies:1.0
+    build: ./votingAssemblies
+    ports: 
+      - "7001:7001"
+    environment:
+      DB_PASSWORD: 'voting123'
+      DB_USERNAME: voting
+      DB_PORT_URL: jdbc:postgresql://db_voting:5432/db_voting
+      URL_VALIDATE_CPF: cpf-validate-app:7003/validate/cpfCnpj/  
+    depends_on: 
+      - cpf-validate-app
+      - db_voting
